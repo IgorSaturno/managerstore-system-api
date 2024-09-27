@@ -4,10 +4,10 @@ services:
   postgres:
       image: bitnami/postgresql:latest
       ports:
-        - '5432:5432'
+        - '3306:3306'
       environment:
-        - POSTGRES_USER=docker 
-        - POSTGRES_PASSWORD=docker 
+        - POSTGRES_USER=docker
+        - POSTGRES_PASSWORD=docker
         - POSTGRES_DB=vibrante
       volumes:
         - postgres_data:/bitnami/postgresql

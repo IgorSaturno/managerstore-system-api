@@ -4,6 +4,6 @@ export default defineConfig({
   schema: "./src/db/schema/index.ts",
   out: "./drizzle",
   dbCredentials: {
-    url: "postgresql://docker:docker@localhost:5432/vibrante"
+    url: "postgresql://docker:docker@localhost:3306/vibrante"
   }
 });
