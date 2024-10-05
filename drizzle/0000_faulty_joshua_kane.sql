@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"email" text NOT NULL,
-	"password" text NOT NULL,
 	"phone" text,
 	"role" "user_role" DEFAULT 'customer' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -19,14 +18,28 @@ CREATE TABLE IF NOT EXISTS "users" (
 CREATE TABLE IF NOT EXISTS "stores" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
-	"description" text NOT NULL,
+	"description" text,
 	"manager_id" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "auth_links" (
+	"id" text PRIMARY KEY NOT NULL,
+	"code" text NOT NULL,
+	"user_id" text NOT NULL,
+	"created_at" timestamp DEFAULT now(),
+	CONSTRAINT "auth_links_code_unique" UNIQUE("code")
+);
+--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "stores" ADD CONSTRAINT "stores_manager_id_users_id_fk" FOREIGN KEY ("manager_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "auth_links" ADD CONSTRAINT "auth_links_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
