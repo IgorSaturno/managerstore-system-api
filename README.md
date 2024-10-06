@@ -1,4 +1,4 @@
-# vibrante-api
+# manager-store-api
 
 To install dependencies:
 
