@@ -1,5 +1,5 @@
 import Elysia, { t } from 'elysia'
-import { stores, users } from '../../db/schema'
+import { stores, storeManagers, users } from '../../db/schema'
 import { db } from '../../db/connection'
 
 export const registerStores = new Elysia().post(
@@ -19,8 +19,19 @@ export const registerStores = new Elysia().post(
         id: users.id,
       })
 
-    await db.insert(stores).values({
-      name: storeName,
+    // Inserir a loja na tabela de lojas
+    const [store] = await db
+      .insert(stores)
+      .values({
+        name: storeName,
+      })
+      .returning({
+        id: stores.id,
+      })
+
+    // Associar o gerente à loja na tabela storeManagers
+    await db.insert(storeManagers).values({
+      storeId: store.id,
       managerId: manager.id,
     })
 

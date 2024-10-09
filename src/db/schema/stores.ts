@@ -1,4 +1,4 @@
-import { text, timestamp, pgTable } from 'drizzle-orm/pg-core'
+import { text, timestamp, pgTable, primaryKey } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
 import { users } from './users'
 import { relations } from 'drizzle-orm'
@@ -25,19 +25,17 @@ export const storeManagers = pgTable(
       onDelete: 'cascade',
     }),
   },
-  {
-    primaryKey: ['storeId', 'managerId'],
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.storeId, table.managerId] }),
+    }
   },
 )
 
 // Relações
 export const storesRelations = relations(stores, ({ many }) => {
   return {
-    managers: many(storeManagers, {
-      fields: [stores.id],
-      references: [storeManagers.storeId],
-      relationName: 'store_managers',
-    }),
+    managers: many(storeManagers),
   }
 })
 

@@ -34,7 +34,7 @@ const [manager] = await db
   .values([
     {
       name: faker.person.fullName(),
-      email: 'admin@admin.com',
+      email: 'admin1@admin.com',
       role: 'manager',
     },
   ])
