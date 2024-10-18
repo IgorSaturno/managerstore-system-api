@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS "users" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "store_managers" (
-	"store_id" text,
-	"manager_id" text,
+	"store_id" text NOT NULL,
+	"manager_id" text NOT NULL,
 	CONSTRAINT "store_managers_store_id_manager_id_pk" PRIMARY KEY("store_id","manager_id")
 );
 --> statement-breakpoint

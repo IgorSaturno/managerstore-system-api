@@ -18,12 +18,16 @@ export const stores = pgTable('stores', {
 export const storeManagers = pgTable(
   'store_managers',
   {
-    storeId: text('store_id').references(() => stores.id, {
-      onDelete: 'cascade',
-    }),
-    managerId: text('manager_id').references(() => users.id, {
-      onDelete: 'cascade',
-    }),
+    storeId: text('store_id')
+      .notNull()
+      .references(() => stores.id, {
+        onDelete: 'cascade',
+      }),
+    managerId: text('manager_id')
+      .notNull()
+      .references(() => users.id, {
+        onDelete: 'cascade',
+      }),
   },
   (table) => {
     return {
