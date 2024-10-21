@@ -37,12 +37,12 @@ export const authenticateFromLink = new Elysia().use(auth).get(
 
     await signUser({
       sub: authLinkFromCode.userId,
-      storeId: managedStore?.storeId,
+      storeId: managedStore?.managerId,
     })
 
     await db.delete(authLinks).where(eq(authLinks.code, code))
 
-    set.redirect = redirect
+    // set.redirect = redirect
   },
   {
     query: t.Object({
