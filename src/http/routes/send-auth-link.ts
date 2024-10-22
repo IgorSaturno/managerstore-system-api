@@ -3,6 +3,8 @@ import { authLinks } from '../../db/schema'
 import { db } from '../../db/connection'
 import { createId } from '@paralleldrive/cuid2'
 import { env } from '../../env'
+import { mail } from '../../lib/mail'
+import nodemailer from 'nodemailer'
 
 export const sendAuthLink = new Elysia().post(
   '/authenticate',
@@ -33,7 +35,16 @@ export const sendAuthLink = new Elysia().post(
     authLink.searchParams.set('code', authLinkCode)
     authLink.searchParams.set('redirect', env.AUTH_REDIRECT_URL)
 
-    console.log(authLink.toString())
+    const info = await mail.sendMail({
+      from: {
+        name: 'Managed Store',
+        address: 'hi@managedstore.com',
+      },
+      to: email,
+      subject: 'Authenticate to Managed Store',
+      text: `Use the following link to authenticate on Managed Store: ${authLink.toString()}`,
+    })
+    console.log(nodemailer.getTestMessageUrl(info))
   },
   {
     body: t.Object({
