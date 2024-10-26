@@ -2,6 +2,8 @@ import { text, timestamp, pgTable, primaryKey } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
 import { users } from './users'
 import { relations } from 'drizzle-orm'
+import { orders } from './orders'
+import { products } from './products'
 
 // Tabela de Lojas
 export const stores = pgTable('stores', {
@@ -43,15 +45,21 @@ export const storesRelations = relations(stores, ({ many }) => {
   }
 })
 
-export const storeManagersRelations = relations(storeManagers, ({ one }) => {
-  return {
-    store: one(stores, {
-      fields: [storeManagers.storeId],
-      references: [stores.id],
-    }),
-    manager: one(users, {
-      fields: [storeManagers.managerId],
-      references: [users.id],
-    }),
-  }
-})
+export const storeManagersRelations = relations(
+  storeManagers,
+  ({ one, many }) => {
+    return {
+      store: one(stores, {
+        fields: [storeManagers.storeId],
+        references: [stores.id],
+      }),
+      manager: one(users, {
+        fields: [storeManagers.managerId],
+        references: [users.id],
+        relationName: 'store_managers',
+      }),
+      orders: many(orders),
+      products: many(products),
+    }
+  },
+)

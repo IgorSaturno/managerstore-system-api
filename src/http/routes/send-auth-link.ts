@@ -37,12 +37,12 @@ export const sendAuthLink = new Elysia().post(
 
     const info = await mail.sendMail({
       from: {
-        name: 'Managed Store',
-        address: 'hi@managedstore.com',
+        name: 'Manager Store',
+        address: 'hi@managerstore.com',
       },
       to: email,
-      subject: 'Authenticate to Managed Store',
-      text: `Use the following link to authenticate on Managed Store: ${authLink.toString()}`,
+      subject: 'Authenticate to Manager-store account',
+      text: `Use the following link to authenticate on Manager-store: ${authLink.toString()}`,
     })
     console.log(nodemailer.getTestMessageUrl(info))
   },

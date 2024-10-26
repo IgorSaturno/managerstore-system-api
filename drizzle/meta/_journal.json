@@ -8,6 +8,13 @@
       "when": 1729106336637,
       "tag": "0000_neat_inertia",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1729870643198,
+      "tag": "0001_funny_genesis",
+      "breakpoints": true
     }
   ]
 }
